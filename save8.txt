@@ -1,0 +1,1 @@
+cmd /c "activate CarlaCompat && python environmentBoi.py --altitude 46.0 --azimuth 138.0 --clouds 100.0 --rain 100.0 --wind 50.0 --puddles 42.0 --fog 41.0 --fogdist 35.0 --fogfalloff 38.0 --wetness 100.0

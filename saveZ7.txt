@@ -1,0 +1,3 @@
+--weather clear
+--sun day
+--lights off

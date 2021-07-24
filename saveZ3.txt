@@ -1,0 +1,3 @@
+--weather rain
+--sun day
+--lights off
