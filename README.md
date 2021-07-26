@@ -1,7 +1,5 @@
 # GUI_BOI_MS3
 
-# AILEX_GUI
-
 ## What is AILEX_GUI
 AILEX_GUI is a GUI that interfaces with CARLA Simulator such that it provides convenience for the user to launch the UE4 environment and tweak the necessary paramters.
 
