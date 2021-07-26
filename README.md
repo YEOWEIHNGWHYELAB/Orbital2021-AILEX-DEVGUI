@@ -15,3 +15,8 @@ Download: https://drive.google.com/file/d/1RhkKpzNqPWn8nQZDRfxKGPzkvzm8v5rK/view
 Then move it into the GUI_BOI_MS3 folder.
 
 Alternatively just download: https://drive.google.com/drive/folders/118tfZa77iBAiVFD_ASUHh5u-Gn4ETGjS?usp=sharing 
+
+Ensure that Anaconda3 is installed and has been added to environment variables.
+
+Then run the AutoMateInstall.exe on GUI_BOI_MS3 folder.
+Then run the AutoMate.exe on GUI_BOI_MS3 folder.
