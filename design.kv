@@ -1,0 +1,1412 @@
+#-----------------------------------------------------------------------------------------
+# Pre-Defined Widgets
+#-----------------------------------------------------------------------------------------
+<MenuButton@Button>:
+    font_size: 32
+    color: 0, 0, 0, 1
+    size: 150, 30
+    background_normal: ''
+    background_down: 'MenuClicked.jpg'
+    size_hint: .25, .1
+
+<CARLASTADNBYPopup>:
+    size_hint: .5, .5
+    auto_dismiss: False
+    title: "Initialize CARLA? WARNING THIS IS EXTREMELY GPU INTENSIVE!"
+    FloatLayout:
+        Button:
+            color: 1, 0.75, 0.7, 1
+            text: "EPIC!"
+            pos_hint: {"center_x": .5, "center_y": .75}
+            size_hint: 1, .33
+            font_size: 45
+            background_normal: 'carla.jpg'
+            background_down: 'MenuClicked.jpg'
+            on_press:
+                root.exeMainCarla()
+                root.dismiss()
+
+        Button:
+            color: 1, 0.75, 0.7, 1
+            text: "LOW!"
+            pos_hint: {"center_x": .5, "center_y": .50}
+            size_hint: 1, .33
+            font_size: 45
+            background_normal: 'carla.jpg'
+            background_down: 'MenuClicked.jpg'
+            on_press:
+                root.exeMainCarla_low()
+                root.dismiss()
+
+        Button:
+            pos_hint: {"center_x": .5, "center_y": .25}
+            size_hint: 1, .33
+            font_size: 60
+            background_normal: 'ABORT.png'
+            background_down: 'MenuClicked.jpg'
+            on_press:
+                root.dismiss()
+
+<popupDescription>:
+    size_hint: .5, .5
+    auto_dismiss: False
+    title: "Description"
+    Button:
+        text: "Safe Spawn: Avoid spawning vehicles prone to accidents.\n                        Press N to Destroy all NPC!"
+
+        on_press:
+            root.dismiss() # Then we just close the popup -> dismiss() helps to close.
+
+<popupDescription1>:
+    size_hint: .5, .5
+    auto_dismiss: False
+    title: "Description"
+    Button:
+        text: "This is for integration of SUMO,\n              you must have SUMO installed!"
+
+        on_press:
+            root.dismiss() # Then we just close the popup -> dismiss() helps to close.
+
+<VehGal@Button>:
+    font_size: 32
+
+<DemoButt@Button>:
+    font_size: 16
+#-----------------------------------------------------------------------------------------
+
+#-----------------------------------------------------------------------------------------
+<mainMenu>:
+    Image:
+        source: 'MainMenu.jpg'
+        allow_stretch: True
+        keep_ratio: False
+
+    Label:
+        font_size: 60
+        color: 1, 1, 1, 1
+        pos_hint: {"center_x": .5, "center_y": .90}
+        text: "AILEX ORBITAL 2021"
+
+    FloatLayout:
+        MenuButton:
+            background_color: 0, 1, 0, 1
+            text: "Singleplayer"
+            pos_hint: {"center_x": .5, "center_y": .75} # Position can be based on top, bottom, left right, x, y.
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.transition.duration = 1
+                root.manager.current = 'single_Player'
+
+        MenuButton:
+            background_color: 0, 1, 0.5, 1
+            text: "Multiplayer"
+            pos_hint: {"center_x": .5, "center_y": .55}
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.transition.duration = 1
+                root.manager.current = 'multi_Player'
+
+        MenuButton:
+            background_color: 0, 0, 1, 1
+            text: "DEMO"
+            pos_hint: {"center_x": .5, "center_y": .35}
+            on_press:
+                root.manager.transition.direction = 'down'
+                root.manager.transition.duration = 1
+                root.manager.current = 'Demo'
+
+
+        MenuButton:
+            background_color: 1, 0, 0, 1
+            text: "Quit"
+            pos_hint: {"center_x": .5, "center_y": .15}
+            on_press:
+                root.exit()
+#-----------------------------------------------------------------------------------------
+
+#-----------------------------------------------------------------------------------------
+<singlePlayer>:
+    BoxLayout:
+        orientation: "vertical"
+
+        Button:
+            size_hint: .5, .2
+            pos_hint: {"center_x": .5}
+            text: "Environment Tweaks"
+            on_press:
+                root.manager.transition.direction = 'up'
+                root.manager.transition.duration = 1
+                root.manager.current = 'env_tweaks'
+
+        Button:
+            size_hint: .5, .2
+            pos_hint: {"center_x": .5}
+            text: "Vehicle Gallery"
+            on_press:
+                root.manager.transition.direction = 'down'
+                root.manager.transition.duration = 1
+                root.manager.current = 'vehicle_tweaks'
+
+        Button:
+            size_hint: .5, .2
+            pos_hint: {"center_x": .5}
+            text: "ACTIVATE CARLA Environment"
+            on_press:
+                root.popupCARLAexe()
+
+        Button:
+            size_hint: .5, .2
+            pos_hint: {"center_x": .5}
+            text: "Manual Control"
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.transition.duration = 1
+                root.manager.current = 'manual_Con'
+
+        Button:
+            size_hint: .5, .2
+            pos_hint: {"center_x": .5}
+            text: "Additional Mode"
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.transition.duration = 1
+                root.manager.current = 'additonal_Mode'
+
+        Button:
+            size_hint: .5, .2
+            pos_hint: {"center_x": .5}
+            text: "Go Back"
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.transition.duration = 1
+                root.manager.current = 'main_Menu'
+
+<envTweaks>:
+    FloatLayout:
+        TabbedPanel:
+            do_default_tab: False
+
+            #---------------------------------------------------
+            # Weather Boi Tab
+            TabbedPanelItem:
+                text: "Weather Boi"
+
+                TabbedPanel:
+                    do_default_tab: False
+                    TabbedPanelItem:
+                        text: "Simple"
+                        BoxLayout:
+                            orientation: "vertical"
+
+                            BoxLayout:
+                                orientation: "horizontal"
+
+                                Label:
+                                    text: "Time of Day"
+
+                                Spinner:
+                                    size_hint_x: .5
+                                    size_hint_y: .5
+                                    text: "day"
+                                    values: ["sunset", "day", "night"]
+                                    id: Time_Spinner_1
+                                    on_text:
+                                        root.spinnerTimeClicked(Time_Spinner_1.text)
+
+                                Label:
+                                    text: "Weather"
+
+                                Spinner:
+                                    size_hint_x: .5
+                                    size_hint_y: .5
+                                    text: "clear"
+                                    values: ["clear", "overcast", "rain"]
+                                    id: Weather_Spinner
+                                    on_text:
+                                        root.spinnerWeatherClicked(Weather_Spinner.text)
+
+                                Label:
+                                    text: "Street Lights"
+
+                                Spinner:
+                                    size_hint_x: .5
+                                    size_hint_y: .5
+                                    text: "off"
+                                    values: ["on", "off"]
+                                    id: Time_Spinner
+                                    on_text:
+                                        root.spinnerStreetLightClicked(Time_Spinner.text)
+
+                            Button:
+                                text: "Press To Set ALL!"
+                                on_press:
+                                    root.streetLite = Time_Spinner.text
+                                    root.tiIam = Time_Spinner_1.text
+                                    root.whether = Weather_Spinner.text
+                                    root.saveFile(0)
+                                    root.writeFile(0)
+
+                    TabbedPanelItem:
+                        text: "Advanced"
+                        BoxLayout:
+                            orientation: "vertical"
+
+                            BoxLayout:
+                                orientation: "horizontal"
+
+                                Label:
+                                    text: "Sun Altitude [-90.0 - 90.0]"
+
+                                Label:
+                                    size_hint_x: .05
+                                    text: str(Sun_Altitude_Input.value)
+
+                                Slider:
+                                    id: Sun_Altitude_Input
+                                    min: -90
+                                    max: 90
+                                    value: 0
+                                    step: 1
+
+                                Button:
+                                    text: "Press To Set!"
+                                    on_press:
+                                        root.weatherBoiSunAltitude(float(Sun_Altitude_Input.value))
+
+                            BoxLayout:
+                                orientation: "horizontal"
+
+                                Label:
+                                    text: "Sun Azimuth [0.0 - 360.0]"
+
+                                Label:
+                                    size_hint_x: .05
+                                    text: str(Sun_Azimuth_Input.value)
+
+                                Slider:
+                                    id: Sun_Azimuth_Input
+                                    min: 0
+                                    max: 360
+                                    value: 0
+                                    step: 1
+
+                                Button:
+                                    text: "Press To Set!"
+                                    on_press:
+                                        root.weatherBoiAzimuth(float(Sun_Azimuth_Input.value))
+
+                            BoxLayout:
+                                orientation: "horizontal"
+
+                                Label:
+                                    text: "Clouds [0.0 - 100.0]"
+
+                                Label:
+                                    size_hint_x: .05
+                                    text: str(Clouds_Input.value)
+
+                                Slider:
+                                    id: Clouds_Input
+                                    min: 0
+                                    max: 100
+                                    value: 0
+                                    step: 1
+
+                                Button:
+                                    text: "Press To Set!"
+                                    on_press:
+                                        root.weatherBoiClouds(float(Clouds_Input.value))
+
+                            BoxLayout:
+                                orientation: "horizontal"
+
+                                Label:
+                                    text: "Rain [0.0 - 100.0]"
+
+                                Label:
+                                    size_hint_x: .05
+                                    text: str(Rain_Input.value)
+
+                                Slider:
+                                    id: Rain_Input
+                                    min: 0
+                                    max: 100
+                                    value: 0
+                                    step: 1
+
+                                Button:
+                                    text: "Press To Set!"
+                                    on_press:
+                                        root.weatherBoiRains(float(Rain_Input.value))
+
+                            BoxLayout:
+                                orientation: "horizontal"
+
+                                Label:
+                                    text: "Wind [0.0 - 100.0]"
+
+                                Label:
+                                    size_hint_x: .05
+                                    text: str(Wind_Input.value)
+
+                                Slider:
+                                    id: Wind_Input
+                                    min: 0
+                                    max: 100
+                                    value: 0
+                                    step: 1
+
+                                Button:
+                                    text: "Press To Set!"
+                                    on_press:
+                                        root.weatherBoiWind(float(Wind_Input.value))
+
+
+                            BoxLayout:
+                                orientation: "horizontal"
+
+                                Label:
+                                    text: "Puddles [0.0 - 100.0]"
+
+                                Label:
+                                    size_hint_x: .05
+                                    text: str(Puddles_Input.value)
+
+                                Slider:
+                                    id: Puddles_Input
+                                    min: 0
+                                    max: 100
+                                    value: 0
+                                    step: 1
+
+                                Button:
+                                    text: "Press To Set!"
+                                    on_press:
+                                        root.weatherBoiPuddles(float(Puddles_Input.value))
+
+                            BoxLayout:
+                                orientation: "horizontal"
+
+                                Label:
+                                    text: "Fog [0.0 - 100.0]"
+
+                                Label:
+                                    size_hint_x: .05
+                                    text: str(Fog_Input.value)
+
+                                Slider:
+                                    id: Fog_Input
+                                    min: 0
+                                    max: 100
+                                    value: 0
+                                    step: 1
+
+                                Button:
+                                    text: "Press To Set!"
+                                    on_press:
+                                        root.weatherBoiFog(float(Fog_Input.value))
+
+                            BoxLayout:
+                                orientation: "horizontal"
+
+                                Label:
+                                    text: "Fog Distance [0.0 - 100.0)"
+
+                                Label:
+                                    size_hint_x: .05
+                                    text: str(FogDist_Input.value)
+
+                                Slider:
+                                    id: FogDist_Input
+                                    min: 0
+                                    max: 99
+                                    value: 0
+                                    step: 1
+
+                                Button:
+                                    text: "Press To Set!"
+                                    on_press:
+                                        root.weatherBoiFogdist(float(FogDist_Input.value))
+
+                            BoxLayout:
+                                orientation: "horizontal"
+
+                                Label:
+                                    text: "Fog Fall Off [0.0 - inf)"
+
+                                Label:
+                                    size_hint_x: .05
+                                    text: str(FogFallOff_Input.value)
+
+                                Slider:
+                                    id: FogFallOff_Input
+                                    min: 0
+                                    max: 100
+                                    value: 0
+                                    step: 1
+
+                                Button:
+                                    text: "Press To Set!"
+                                    on_press:
+                                        root.weatherBoiFogfalloff(float(FogFallOff_Input.value))
+
+                            BoxLayout:
+                                orientation: "horizontal"
+
+                                Label:
+                                    text: "Wetness [0.0 - 100.0]"
+
+                                Label:
+                                    size_hint_x: .05
+                                    text: str(Wetness_Input.value)
+
+                                Slider:
+                                    id: Wetness_Input
+                                    min: 0
+                                    max: 100
+                                    value: 0
+                                    step: 1
+
+                                Button:
+                                    text: "Press To Set!"
+                                    on_press:
+                                        root.weatherBoiWetness(float(Wetness_Input.value))
+
+                            Button:
+                                text: "Press To Set ALL!"
+                                on_press:
+                                    root.Sun_Altitude_Input = float(Sun_Altitude_Input.value)
+                                    root.Sun_Azimuth_Input = float(Sun_Azimuth_Input.value)
+                                    root.Clouds_Input = float(Clouds_Input.value)
+                                    root.Rain_Input = float(Rain_Input.value)
+                                    root.Wind_Input = float(Wind_Input.value)
+                                    root.Puddles_Input = float(Puddles_Input.value)
+                                    root.Fog_Input = float(Fog_Input.value)
+                                    root.FogDist_Input = float(FogDist_Input.value)
+                                    root.FogFallOff_Input = float(FogFallOff_Input.value)
+                                    root.Wetness_Input = float(Wetness_Input.value)
+                                    root.saveFile(0)
+                                    root.writeFileZ(0)
+
+                    TabbedPanelItem:
+                        text: "SaveEZ"
+
+                        BoxLayout:
+                            orientation: "vertical"
+                            Label:
+                                text: "Save Files & Execute File\n This is for Weather EZ less options"
+
+                            BoxLayout:
+                                orientation: "horizontal"
+
+                                Button:
+                                    text: "Save to Save1"
+                                    on_press:
+                                        root.streetLite = Time_Spinner.text
+                                        root.tiIam = Time_Spinner_1.text
+                                        root.whether = Weather_Spinner.text
+                                        root.Sun_Altitude_Input = float(Sun_Altitude_Input.value)
+                                        root.Sun_Azimuth_Input = float(Sun_Azimuth_Input.value)
+                                        root.Clouds_Input = float(Clouds_Input.value)
+                                        root.Rain_Input = float(Rain_Input.value)
+                                        root.Wind_Input = float(Wind_Input.value)
+                                        root.Puddles_Input = float(Puddles_Input.value)
+                                        root.Fog_Input = float(Fog_Input.value)
+                                        root.FogDist_Input = float(FogDist_Input.value)
+                                        root.FogFallOff_Input = float(FogFallOff_Input.value)
+                                        root.Wetness_Input = float(Wetness_Input.value)
+                                        root.saveFile(1)
+
+                                Button:
+                                    text: "Save to Save2"
+                                    on_press:
+                                        root.streetLite = Time_Spinner.text
+                                        root.tiIam = Time_Spinner_1.text
+                                        root.whether = Weather_Spinner.text
+                                        root.Sun_Altitude_Input = float(Sun_Altitude_Input.value)
+                                        root.Sun_Azimuth_Input = float(Sun_Azimuth_Input.value)
+                                        root.Clouds_Input = float(Clouds_Input.value)
+                                        root.Rain_Input = float(Rain_Input.value)
+                                        root.Wind_Input = float(Wind_Input.value)
+                                        root.Puddles_Input = float(Puddles_Input.value)
+                                        root.Fog_Input = float(Fog_Input.value)
+                                        root.FogDist_Input = float(FogDist_Input.value)
+                                        root.FogFallOff_Input = float(FogFallOff_Input.value)
+                                        root.Wetness_Input = float(Wetness_Input.value)
+                                        root.saveFile(2)
+
+                                Button:
+                                    text: "Save to Save3"
+                                    on_press:
+                                        root.streetLite = Time_Spinner.text
+                                        root.tiIam = Time_Spinner_1.text
+                                        root.whether = Weather_Spinner.text
+                                        root.Sun_Altitude_Input = float(Sun_Altitude_Input.value)
+                                        root.Sun_Azimuth_Input = float(Sun_Azimuth_Input.value)
+                                        root.Clouds_Input = float(Clouds_Input.value)
+                                        root.Rain_Input = float(Rain_Input.value)
+                                        root.Wind_Input = float(Wind_Input.value)
+                                        root.Puddles_Input = float(Puddles_Input.value)
+                                        root.Fog_Input = float(Fog_Input.value)
+                                        root.FogDist_Input = float(FogDist_Input.value)
+                                        root.FogFallOff_Input = float(FogFallOff_Input.value)
+                                        root.Wetness_Input = float(Wetness_Input.value)
+                                        root.saveFile(3)
+
+                                Button:
+                                    text: "Save to Save4"
+                                    on_press:
+                                        root.streetLite = Time_Spinner.text
+                                        root.tiIam = Time_Spinner_1.text
+                                        root.whether = Weather_Spinner.text
+                                        root.Sun_Altitude_Input = float(Sun_Altitude_Input.value)
+                                        root.Sun_Azimuth_Input = float(Sun_Azimuth_Input.value)
+                                        root.Clouds_Input = float(Clouds_Input.value)
+                                        root.Rain_Input = float(Rain_Input.value)
+                                        root.Wind_Input = float(Wind_Input.value)
+                                        root.Puddles_Input = float(Puddles_Input.value)
+                                        root.Fog_Input = float(Fog_Input.value)
+                                        root.FogDist_Input = float(FogDist_Input.value)
+                                        root.FogFallOff_Input = float(FogFallOff_Input.value)
+                                        root.Wetness_Input = float(Wetness_Input.value)
+                                        root.saveFile(4)
+
+                            BoxLayout:
+                                orientation: "horizontal"
+
+                                Button:
+                                    text: "Execute Save1"
+                                    on_press:
+                                        root.writeFile(1)
+
+                                Button:
+                                    text: "Execute Save2"
+                                    on_press:
+                                        root.writeFile(2)
+
+                                Button:
+                                    text: "Execute Save3"
+                                    on_press:
+                                        root.writeFile(3)
+
+                                Button:
+                                    text: "Execute Save4"
+                                    on_press:
+                                        root.writeFile(4)
+
+                    TabbedPanelItem:
+                        text: "SaveHard"
+
+                        BoxLayout:
+                            orientation: "vertical"
+                            Label:
+                                text: "Save Files & Execute File\n This is for Weather Hard (More Customizable)"
+
+                            BoxLayout:
+                                orientation: "horizontal"
+
+                                Button:
+                                    text: "Save to Save5"
+                                    on_press:
+                                        root.streetLite = Time_Spinner.text
+                                        root.tiIam = Time_Spinner_1.text
+                                        root.whether = Weather_Spinner.text
+                                        root.Sun_Altitude_Input = float(Sun_Altitude_Input.value)
+                                        root.Sun_Azimuth_Input = float(Sun_Azimuth_Input.value)
+                                        root.Clouds_Input = float(Clouds_Input.value)
+                                        root.Rain_Input = float(Rain_Input.value)
+                                        root.Wind_Input = float(Wind_Input.value)
+                                        root.Puddles_Input = float(Puddles_Input.value)
+                                        root.Fog_Input = float(Fog_Input.value)
+                                        root.FogDist_Input = float(FogDist_Input.value)
+                                        root.FogFallOff_Input = float(FogFallOff_Input.value)
+                                        root.Wetness_Input = float(Wetness_Input.value)
+                                        root.saveFile(5)
+
+                                Button:
+                                    text: "Save to Save6"
+                                    on_press:
+                                        root.streetLite = Time_Spinner.text
+                                        root.tiIam = Time_Spinner_1.text
+                                        root.whether = Weather_Spinner.text
+                                        root.Sun_Altitude_Input = float(Sun_Altitude_Input.value)
+                                        root.Sun_Azimuth_Input = float(Sun_Azimuth_Input.value)
+                                        root.Clouds_Input = float(Clouds_Input.value)
+                                        root.Rain_Input = float(Rain_Input.value)
+                                        root.Wind_Input = float(Wind_Input.value)
+                                        root.Puddles_Input = float(Puddles_Input.value)
+                                        root.Fog_Input = float(Fog_Input.value)
+                                        root.FogDist_Input = float(FogDist_Input.value)
+                                        root.FogFallOff_Input = float(FogFallOff_Input.value)
+                                        root.Wetness_Input = float(Wetness_Input.value)
+                                        root.saveFile(6)
+
+                                Button:
+                                    text: "Save to Save7"
+                                    on_press:
+                                        root.streetLite = Time_Spinner.text
+                                        root.tiIam = Time_Spinner_1.text
+                                        root.whether = Weather_Spinner.text
+                                        root.Sun_Altitude_Input = float(Sun_Altitude_Input.value)
+                                        root.Sun_Azimuth_Input = float(Sun_Azimuth_Input.value)
+                                        root.Clouds_Input = float(Clouds_Input.value)
+                                        root.Rain_Input = float(Rain_Input.value)
+                                        root.Wind_Input = float(Wind_Input.value)
+                                        root.Puddles_Input = float(Puddles_Input.value)
+                                        root.Fog_Input = float(Fog_Input.value)
+                                        root.FogDist_Input = float(FogDist_Input.value)
+                                        root.FogFallOff_Input = float(FogFallOff_Input.value)
+                                        root.Wetness_Input = float(Wetness_Input.value)
+                                        root.saveFile(7)
+
+                                Button:
+                                    text: "Save to Save8"
+                                    on_press:
+                                        root.streetLite = Time_Spinner.text
+                                        root.tiIam = Time_Spinner_1.text
+                                        root.whether = Weather_Spinner.text
+                                        root.Sun_Altitude_Input = float(Sun_Altitude_Input.value)
+                                        root.Sun_Azimuth_Input = float(Sun_Azimuth_Input.value)
+                                        root.Clouds_Input = float(Clouds_Input.value)
+                                        root.Rain_Input = float(Rain_Input.value)
+                                        root.Wind_Input = float(Wind_Input.value)
+                                        root.Puddles_Input = float(Puddles_Input.value)
+                                        root.Fog_Input = float(Fog_Input.value)
+                                        root.FogDist_Input = float(FogDist_Input.value)
+                                        root.FogFallOff_Input = float(FogFallOff_Input.value)
+                                        root.Wetness_Input = float(Wetness_Input.value)
+                                        root.saveFile(8)
+
+                            BoxLayout:
+                                orientation: "horizontal"
+
+                                Button:
+                                    text: "Execute Save5"
+                                    on_press:
+                                        root.writeFileZ(5)
+
+                                Button:
+                                    text: "Execute Save6"
+                                    on_press:
+                                        root.writeFileZ(6)
+
+                                Button:
+                                    text: "Execute Save7"
+                                    on_press:
+                                        root.writeFileZ(7)
+
+                                Button:
+                                    text: "Execute Save8"
+                                    on_press:
+                                        root.writeFileZ(8)
+
+                    TabbedPanelItem:
+                        text: "DynamicBoi"
+
+                        BoxLayout:
+                            orientation: "horizontal"
+
+                            Label:
+                                text: "Dynamic Weather [1.0 - 100.0]"
+
+                            TextInput:
+                                id: Rate_Weather
+                                multiline: False
+
+                            Button:
+                                text: "Press To Set! <PRESS M to STOP>"
+                                on_press:
+                                    app.dynamicWeatherBoi(float(Rate_Weather.text))
+            #---------------------------------------------------
+
+            #---------------------------------------------------
+            # Map Selector Tab
+            TabbedPanelItem:
+                text: "Map"
+                BoxLayout:
+                    orientation: "vertical"
+
+                    BoxLayout:
+                        orientation: "horizontal"
+
+                        Button:
+                            background_normal: 'Town01.jpg'
+                            on_press:
+                                app.mapSelect(1)
+
+                        Button:
+                            background_normal: 'Town02.jpg'
+                            on_press:
+                                app.mapSelect(2)
+
+                        Button:
+                            background_normal: 'Town03.jpg'
+                            on_press:
+                                app.mapSelect(3)
+
+                        Button:
+                            background_normal: 'Town07.jpg'
+                            on_press:
+                                app.mapSelect(7)
+
+                    BoxLayout:
+                        orientation: "horizontal"
+
+                        Button:
+                            background_normal: 'Town04.jpg'
+                            on_press:
+                                app.mapSelect(4)
+
+                        Button:
+                            background_normal: 'Town05.jpg'
+                            on_press:
+                                app.mapSelect(5)
+
+                        Button:
+                            background_normal: 'Town06.jpg'
+                            on_press:
+                                app.mapSelect(6)
+
+                        Button:
+                            background_normal: 'Town10.jpg'
+                            on_press:
+                                app.mapSelect(10)
+            #---------------------------------------------------
+
+            #---------------------------------------------------
+            # NPC Tab
+            TabbedPanelItem:
+                text: "NPC/Traffic"
+
+                TabbedPanel:
+                    do_default_tab: False
+                    TabbedPanelItem:
+                        text: "NPC"
+                        BoxLayout:
+                            orientation: "vertical"
+                            height: 30
+
+                            Button:
+                                text: "Click Me!"
+                                on_press: root.descriptionPopup()
+
+                            BoxLayout:
+                                orientation: "horizontal"
+                                size_hint_x: .5
+
+                                Label:
+                                    text: "Vehicle Lights"
+
+                                Switch:
+                                    id: Vehicle_Light_Switch
+                                    on_active: root.switchLightOnOff(self, self.active)
+
+                                Label:
+                                    text: "Safe Spawn"
+
+                                Switch:
+                                    id: Safe_Spawn
+                                    on_active: root.switchSafeOnOff(self, self.active)
+
+                            BoxLayout:
+                                orientation: "horizontal"
+
+                                Label:
+                                    size_hint_x: .05
+                                    text: str(vehicleNum.value)
+
+                                Slider:
+                                    id: vehicleNum
+                                    min: 0
+                                    max: 80
+                                    value: 1
+                                    step: 1
+
+                                Label:
+                                    text: "Vehicle Quantity Set"
+
+                            BoxLayout:
+                                orientation: "horizontal"
+
+                                Label:
+                                    size_hint_x: .05
+                                    text: str(walkerNum.value)
+
+                                Slider:
+                                    id: walkerNum
+                                    min: 0
+                                    max: 80
+                                    value: 1
+                                    step: 1
+
+                                Label:
+                                    text: "Walker (Not Zombie!) Quantity Set"
+
+                                Button:
+                                    text: "ONLY PRESS ONCE! To Activate"
+                                    on_press:
+                                        root.numVehicle = int(vehicleNum.value)
+                                        root.numWalker = int(walkerNum.value)
+                                        app.npcSpawn(root.numVehicle, root.numWalker, root.isSafe, root.lightOn)
+
+                    TabbedPanelItem:
+                        text: "SUMO"
+                        BoxLayout:
+                            orientation: "vertical"
+                            height: 30
+
+                            Button:
+                                text: "Click Me!"
+                                size_hint_x: .5
+                                pos_hint: {"center_x": .5}
+                                on_press: root.descriptionPopup1()
+
+                            BoxLayout:
+                                Button:
+                                    text: "Launch SUMO Town 1"
+                                    size_hint_x: .2
+                                    on_press:
+                                        app.sumoSync(1)
+
+                                Button:
+                                    text: "Launch SUMO Town 4"
+                                    size_hint_x: .2
+                                    on_press:
+                                        app.sumoSync(4)
+
+                                Button:
+                                    text: "Launch SUMO Town 5"
+                                    size_hint_x: .2
+                                    on_press:
+                                        app.sumoSync(5)
+
+            #---------------------------------------------------
+
+            #---------------------------------------------------
+            # Go Back Tab
+            TabbedPanelItem:
+                text: "Go Back"
+                Button:
+                    font_size: 72
+                    text: "Go Back To Menu"
+                    color: 0, 0, 1, 1
+                    background_normal: 'MenuClicked.jpg'
+                    on_press:
+                        root.manager.transition.direction = 'down'
+                        root.manager.transition.duration = 1
+                        root.manager.current = 'single_Player'
+            #---------------------------------------------------
+
+<vehicleSelect>:
+    id: calculator
+
+    BoxLayout:
+        orientation: "vertical"
+        display: entry
+        rows: 2
+        padding: 10
+        spacing: 10
+
+        BoxLayout:
+            TextInput:
+                id: entry
+                font_size: 32
+                multiline: False
+
+        BoxLayout:
+            Label:
+                font_size: 32
+                text: "Press T and Y to traverse. Press R to select vehicle desired."
+
+        BoxLayout:
+            Label:
+                font_size: 32
+                text: "When R is depressed, the vehicle id will be shown."
+
+        BoxLayout:
+            spacing: 10
+            VehGal:
+                text: "Enter Gallery"
+                on_press:
+                    app.openVehicleGallery()
+                    entry.text += str(app.vehicleName)
+
+            VehGal:
+                text: "Back"
+                on_press:
+                    root.manager.transition.direction = 'up'
+                    root.manager.transition.duration = 1
+                    root.manager.current = 'single_Player'
+
+<manualCon>
+    BoxLayout:
+        orientation: "vertical"
+        Button:
+            text: "KeyboardControl"
+            size_hint_x: .5
+            pos_hint: {"center_x": .5}
+            on_press:
+                app.manualCon(0)
+
+        Button:
+            text: "XBOXControl"
+            size_hint_x: .5
+            pos_hint: {"center_x": .5}
+            on_press:
+                app.manualCon(1)
+
+        Button:
+            text: "Pedestrian"
+            size_hint_x: .5
+            pos_hint: {"center_x": .5}
+            on_press:
+                app.manualCon(2)
+
+        Button:
+            text: "Map View"
+            size_hint_x: .5
+            pos_hint: {"center_x": .5}
+            on_press:
+                app.noRenderActivate(True, False, False, False)
+
+        Button:
+            text: "Go Back"
+            size_hint_x: .5
+            pos_hint: {"center_x": .5}
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.transition.duration = 1
+                root.manager.current = 'single_Player'
+
+<additionalMode>
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: "Read Documentation"
+            font_size: 26
+            size_hint_y: .1
+
+        Button:
+            text: "No Render Mode"
+            size_hint_x: .5
+            pos_hint: {"center_x": .5}
+            on_press:
+                root.manager.transition.direction = 'up'
+                root.manager.transition.duration = 1
+                root.manager.current = 'no_render'
+
+        Button:
+            text: "Lane Exploration"
+            size_hint_x: .5
+            pos_hint: {"center_x": .5}
+            on_press:
+                root.manager.transition.direction = 'down'
+                root.manager.transition.duration = 1
+                root.manager.current = 'lane_explore'
+
+        Button:
+            text: "PyCharm Says: Am I a Joke to you?!"
+            size_hint_x: .5
+            pos_hint: {"center_x": .5}
+            on_press:
+                app.ideJoke()
+
+        Button:
+            text: "Go Back"
+            size_hint_x: .5
+            pos_hint: {"center_x": .5}
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.transition.duration = 1
+                root.manager.current = 'single_Player'
+
+<noRender>
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: "NO RENDER"
+            font_size: 26
+            size_hint_y: .1
+
+        BoxLayout:
+            orientation: "horizontal"
+            Label:
+                text: "Render"
+            Switch:
+                id: render
+                on_active:
+                    app.render = self.active
+
+            Label:
+                text: "Trigger Box Display"
+            Switch:
+                id: triggerBox
+                on_active:
+                    app.triggerBox = self.active
+
+        BoxLayout:
+            orientation: "horizontal"
+            Label:
+                text: "Connections"
+            Switch:
+                id: connection
+                on_active:
+                    app.connection = self.active
+
+            Label:
+                text: "Spawn Point"
+            Switch:
+                id: spawnPoint
+                on_active:
+                    app.spawnPoint = self.active
+
+        Button:
+            text: "ACTIVATE"
+            size_hint_x: .5
+            pos_hint: {"center_x": .5}
+            on_press:
+                app.noRenderActivate(app.render, app.triggerBox, app.connection, app.spawnPoint)
+
+        Button:
+            text: "Go Back"
+            size_hint_x: .5
+            pos_hint: {"center_x": .5}
+            on_press:
+                root.manager.transition.direction = 'down'
+                root.manager.transition.duration = 1
+                root.manager.current = 'additonal_Mode'
+
+<laneExplore>
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: "Dora Explorer"
+            font_size: 26
+            size_hint_y: .1
+
+        BoxLayout:
+            Label:
+                text: "X"
+
+            TextInput:
+                id: x
+                multiline: False
+
+            Button:
+                text: "Press To Set!"
+                on_press:
+                    app.x = float(x.text)
+
+        BoxLayout:
+            Label:
+                text: "Y"
+
+            TextInput:
+                id: y
+                multiline: False
+
+            Button:
+                text: "Press To Set!"
+                on_press:
+                    app.y = float(y.text)
+
+        BoxLayout:
+            Label:
+                text: "Z"
+
+            TextInput:
+                id: z
+                multiline: False
+
+            Button:
+                text: "Press To Set!"
+                on_press:
+                    app.z = float(z.text)
+
+        Button:
+            text: "ACTIVATE!"
+            size_hint_x: .5
+            pos_hint: {"center_x": .5}
+            on_press:
+                app.laneExplorer(app.x, app.y, app.z)
+
+        Button:
+            text: "Go Back"
+            size_hint_x: .5
+            pos_hint: {"center_x": .5}
+            on_press:
+                root.manager.transition.direction = 'up'
+                root.manager.transition.duration = 1
+                root.manager.current = 'additonal_Mode'
+
+#-----------------------------------------------------------------------------------------
+
+#-----------------------------------------------------------------------------------------
+<multiPlayer>:
+    BoxLayout:
+        orientation: "vertical"
+        Button:
+            text: "LAN"
+            size_hint_x: .5
+            pos_hint: {"center_x": .5}
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.transition.duration = 1
+                root.manager.current = 'lanBased_Play'
+
+        Button:
+            text: "AILEX Website"
+            size_hint_x: .5
+            pos_hint: {"center_x": .5}
+            on_press:
+                root.openAILEXWeb()
+
+        Button:
+            text: "ALL HAIL CARLA!"
+            size_hint_x: .5
+            pos_hint: {"center_x": .5}
+            on_press:
+                root.openCARLADOCWeb()
+
+        Button:
+            text: "Main Menu"
+            size_hint_x: .5
+            pos_hint: {"center_x": .5}
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.transition.duration = 1
+                root.manager.current = 'main_Menu'
+
+<lanBasedPlay>
+    BoxLayout:
+        orientation: "vertical"
+
+        BoxLayout:
+            Label:
+                text: "IP ADDRESS"
+
+            TextInput:
+                id: ipAdd
+                multiline: False
+
+            Label:
+                text: "PORT NUMBER"
+
+            TextInput:
+                id: portNo
+                multiline: False
+
+        BoxLayout:
+            Button:
+                text: "Pedestrian"
+                on_press:
+                    app.multiPed(ipAdd.text, portNo.text)
+
+            Button:
+                text: "VehicleKeyboard"
+                on_press:
+                    app.multiVeh(ipAdd.text, portNo.text, 0)
+
+            Button:
+                text: "VehicleXBOX"
+                on_press:
+                    app.multiVeh(ipAdd.text, portNo.text, 1)
+
+        Button:
+            text: "Go Back"
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.transition.duration = 1
+                root.manager.current = 'multi_Player'
+#-----------------------------------------------------------------------------------------
+
+#-----------------------------------------------------------------------------------------
+<deMO>:
+    BoxLayout:
+        orientation: "vertical"
+
+        BoxLayout:
+            Label:
+                text: "Please Activate CARLA Environment First!\n         Please Refer to Documentation!"
+
+        BoxLayout:
+            orientation: "horizontal"
+
+            DemoButt:
+                text: "WASD Control (Vehicle)"
+                on_press:
+                    root.wasdControlSamplePopup()
+                    root.wasdControlSample(False)
+
+            DemoButt:
+                text: "XBOX Control (Vehicle)"
+                on_press:
+                    root.wasdControlSamplePopup()
+                    root.XBOXControlSample()
+
+            DemoButt:
+                text: "WASD Control (Human)"
+                on_press:
+                    root.wasdControlSamplePopup()
+                    root.wasdControlSample(True)
+
+            DemoButt:
+                text: "Client Bounding Box"
+                on_press:
+                    root.clientBound()
+
+        BoxLayout:
+            orientation: "horizontal"
+
+            DemoButt:
+                text: "Model Initialization"
+                on_press:
+                    root.SimpleDriveInitializationPopup()
+                    root.SimpleDriveInitialization()
+
+            DemoButt:
+                text: "Lane Detection"
+                on_press:
+                    root.SimpleLaneDetect()
+
+            DemoButt:
+                text: "Lidar/Camera Initialization"
+                on_press:
+                    root.SimpleLidarPopup()
+                    root.SimpleLidar()
+
+            DemoButt:
+                text: "RayCast Initialization"
+                on_press:
+                    root.SimpleLidarPopup()
+                    root.rayCast()
+
+        BoxLayout:
+            orientation: "horizontal"
+
+            DemoButt:
+                text: "Automatic Control"
+                on_press:
+                    root.manager.transition.direction = 'down'
+                    root.manager.transition.duration = 1
+                    root.manager.current = 'auto_Control'
+
+            DemoButt:
+                text: "Applying Force/Impulse to Vehicle"
+                on_press:
+                    root.BangCarPopup()
+                    root.BangCar()
+
+            DemoButt:
+                text: "Main Menu"
+                on_press:
+                    root.manager.transition.direction = 'up'
+                    root.manager.transition.duration = 1
+                    root.manager.current = 'main_Menu'
+
+<autoControl>
+    BoxLayout:
+        orientation: "vertical"
+
+        Label:
+            text: "Automatic Car"
+
+        BoxLayout:
+            Label:
+                text: "Safety"
+
+            Button:
+                text: "Cautious"
+                on_press:
+                    root.behaviour = "cautious "
+
+            Button:
+                text: "Optimized"
+                on_press:
+                    root.behaviour = "normal "
+
+            Button:
+                text: "Maniac"
+                on_press:
+                    root.behaviour = "aggressive "
+
+        BoxLayout:
+            Label:
+                text: "Loop"
+
+            Switch:
+                id: loop
+                on_active:
+                    root.loop = self.active
+
+            Label:
+                text: "Agent Type"
+
+            Spinner:
+                size_hint_x: .5
+                text: "Agent Type"
+                values: ["Behavior ", "Roaming ", "Basic "]
+                id: type_Agent
+                on_text:
+                    root.agent = type_Agent.text
+
+        Button:
+            text: "Activate!"
+            size_hint_x: .5
+            pos_hint: {"center_x": .5}
+            on_press:
+                root.autoControl()
+
+        Button:
+            text: "Go Back"
+            size_hint_x: .5
+            pos_hint: {"center_x": .5}
+            on_press:
+                root.manager.transition.direction = 'up'
+                root.manager.transition.duration = 1
+                root.manager.current = 'Demo'
+
+<wasdControlSamplePopup>:
+    auto_dismiss: False
+    title: "README!"
+    FloatLayout:
+        Button:
+            text: "Read Documentation for Controls"
+            font_size: 24
+            background_down: 'MenuClicked.jpg'
+            on_press:
+                root.dismiss()
+
+<SimpleDriveInitializationPopup>:
+    auto_dismiss: False
+    title: "README!"
+    FloatLayout:
+        Button:
+            text: "Spawns a Tesla Model 3 and a Camera \n  attached to it and throttle is set to full!"
+            font_size: 24
+            background_down: 'MenuClicked.jpg'
+            on_press:
+                root.dismiss()
+
+<SimpleLidarPopup>:
+    auto_dismiss: False
+    title: "README!"
+    FloatLayout:
+        Button:
+            text: "Spawns a Tesla Model 3 and a Camera + Lidar \n  attached to it and auto pilot is set to true!"
+            font_size: 24
+            background_down: 'MenuClicked.jpg'
+            on_press:
+                root.dismiss()
+
+<BangCarPopup>:
+    auto_dismiss: False
+    title: "README!"
+    FloatLayout:
+        Button:
+            text: "Applies Force and Impulse to Car"
+            font_size: 24
+            background_down: 'MenuClicked.jpg'
+            on_press:
+                root.dismiss()
+#-----------------------------------------------------------------------------------------
