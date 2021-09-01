@@ -11,7 +11,7 @@ Additional Maps: https://carla-releases.s3.eu-west-3.amazonaws.com/Windows/Addit
 Then copy the contents of additional maps into CARLA_0.9.10 folder.
 Then copy the GUI_BOI_MS3 folder into CARLA_0.9.10/PythonAPI folder.
 
-Download: https://drive.google.com/file/d/1RhkKpzNqPWn8nQZDRfxKGPzkvzm8v5rK/view?usp=sharing 
+[Not Recommended] Download: https://drive.google.com/file/d/1RhkKpzNqPWn8nQZDRfxKGPzkvzm8v5rK/view?usp=sharing 
 
 Then move it into the GUI_BOI_MS3 folder.
 
