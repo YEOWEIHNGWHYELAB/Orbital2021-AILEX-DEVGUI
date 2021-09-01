@@ -4,6 +4,7 @@
 AILEX_GUI is a GUI that interfaces with CARLA Simulator such that it provides convenience for the user to launch the UE4 environment and tweak the necessary paramters. This code is held together with posicle sticks and ductape due to the lack of time in summer (689 hours spent). Most of the time wasted are due to troubleshooting and debugging errors. Moreover, the SWE practice are not fully adhered to, so the code would definitely in a mess... 
 
 ## Download
+Recommended to download the CARLA Simulator on your own as it is extremely large. 
 Download: https://carla-releases.s3.eu-west-3.amazonaws.com/Windows/CARLA_0.9.10.zip
 Additional Maps: https://carla-releases.s3.eu-west-3.amazonaws.com/Windows/AdditionalMaps_0.9.10.zip 
 
