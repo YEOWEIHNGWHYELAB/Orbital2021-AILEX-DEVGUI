@@ -1,3 +1,5 @@
+# Code obtained from: https://github.com/angelkim88/CARLA-Lane_Detection
+
 # -*- coding: utf-8 -*-
 # !/usr/bin/env python
 
